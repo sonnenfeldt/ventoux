@@ -33,7 +33,6 @@ public class JdbcAssetRepository  implements AssetRepository {
 		pgUuid.setType("uuid");
 	}
 
-	@Override
 	public void insert(Asset asset) {
 		try {
 			pgUuid.setValue(asset.getUuid());
@@ -47,7 +46,6 @@ public class JdbcAssetRepository  implements AssetRepository {
 		
 	}
 
-	@Override
 	public void delete(String uuid) {
 		try {
 			pgUuid.setValue(uuid);
@@ -58,7 +56,6 @@ public class JdbcAssetRepository  implements AssetRepository {
 			log.debug("asset delete failed: " + e.toString());		}			
 	}
 
-	@Override
 	public void update(Asset asset) {
 		try {
 			pgUuid.setValue(asset.getUuid());
@@ -71,13 +68,11 @@ public class JdbcAssetRepository  implements AssetRepository {
 		
 	}
 
-	@Override
 	public List<Asset> getAll() {
 		return jdbcTemplate.query("select id, name, description, location, thumbnail_location from lvg_asset",
 				new AssetRowMapper());
 	}
 
-	@Override
 	public Asset findById(String uuid) {
 		Asset asset = null;
 	
