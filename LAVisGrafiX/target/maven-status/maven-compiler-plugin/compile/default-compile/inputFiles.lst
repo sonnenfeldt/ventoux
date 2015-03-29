@@ -1,0 +1,10 @@
+M:\git\ventoux\LAVisGrafiX\src\main\java\de\sonnenfeldt\lavisgrafix\model\Asset.java
+M:\git\ventoux\LAVisGrafiX\src\main\java\de\sonnenfeldt\lavisgrafix\model\Metric.java
+M:\git\ventoux\LAVisGrafiX\src\main\java\de\sonnenfeldt\lavisgrafix\controller\AssetController.java
+M:\git\ventoux\LAVisGrafiX\src\main\java\de\sonnenfeldt\lavisgrafix\model\Category.java
+M:\git\ventoux\LAVisGrafiX\src\main\java\de\sonnenfeldt\lavisgrafix\dao\AssetRepository.java
+M:\git\ventoux\LAVisGrafiX\src\main\java\de\sonnenfeldt\lavisgrafix\helper\AssetHelper.java
+M:\git\ventoux\LAVisGrafiX\src\main\java\de\sonnenfeldt\lavisgrafix\model\Property.java
+M:\git\ventoux\LAVisGrafiX\src\main\java\de\sonnenfeldt\lavisgrafix\dao\JdbcAssetRepository.java
+M:\git\ventoux\LAVisGrafiX\src\main\java\de\sonnenfeldt\lavisgrafix\model\Gallery.java
+M:\git\ventoux\LAVisGrafiX\src\main\java\de\sonnenfeldt\lavisgrafix\model\LibraryEntry.java
