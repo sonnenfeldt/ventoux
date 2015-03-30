@@ -33,7 +33,7 @@ public class AssetRepositoryTest {
 				"spring/application-config.xml");
 		repo = ctx.getBean(AssetRepository.class);
 		
-		assetList = AssetHelper.getAssets(AssetHelper.DEFAULT_FILE_NAME);
+		assetList = AssetHelper.getAssets();
 		
 		int m = randomGenerator.nextInt(assetList.size());
 		int n = randomGenerator.nextInt(assetList.size());

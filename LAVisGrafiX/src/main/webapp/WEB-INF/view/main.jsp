@@ -1,19 +1,40 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
+ <head>
+  <meta charset="utf-8">
 
-	<head>
-		<meta charset="utf-8">
-		<title>Welcome to the LA Visualization Graphic Library!</title>
-	</head> 
+  <title>LAVisGrafix</title>
+ 
+	<script type="text/javascript" src="http://www.sonnenfeldt.de/cit/js/jquery.js"></script>
+	<script type="text/javascript" src="http://www.sonnenfeldt.de/cit/js/thickbox.js"></script>  
+
+	<link rel="stylesheet" href="http://www.sonnenfeldt.de/cit/css/thickbox.css" type="text/css" media="screen" />	
 	
-	<body>
-		<h2>Welcome to the LA Visualization Graphic Library!</h2>
-	
-	<c:forEach items="${assets}" var="asset" varStatus="row">
-		<a href="<c:url value="${assets.location}"/>">${assets.description}</a>
-	</c:forEach>
+ </head>
+ <body link="#ffffff" vlink="#ffffff" alink="#ccccff">
+ <h1>Welcome to the LA Visualization Graphic Library!</h1>
+ <div align="center">  
+  <table>
+   <tr>	   
+       <td id="Gallery">
+	   <div align="center">
 
+		<table id="GalleryTable" >
+		<c:forEach items="${assets}" var="asset" varStatus="row">
+		<tr>
+			<a href="<c:url value="${asset.location}"/>" class="thickbox" title="${asset.description}"><img class="image" 
+			src="<c:url value="${asset.thumbnailLocation}"/>" border=3 alt=""  height="200"></a>
+		</tr>
+		</c:forEach>
+		<tr></tr>
+		</table>
+		
+	   </div>
+       </td>
+  	   <td id="GalleryTableRefresh"> </td>
 
-	</body>
-
+	</tr>
+  </table>
+  </div>
+ </body>
 </html>

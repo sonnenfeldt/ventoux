@@ -16,55 +16,37 @@ import de.sonnenfeldt.lavisgrafix.model.Asset;
 
 public class AssetHelper {
 
-	public static String DEFAULT_FILE_NAME = "./links.txt";
+	private static int NUMBER_OF_ASSET = 41;
+	private static String BASE_LOCATION = "https://s3-eu-west-1.amazonaws.com/lavisgrafix/";
 	
 	public AssetHelper() {
 	
 	}
 
-	public static List<Asset> getAssets(String filename) {
+	public static List<Asset> getAssets() {
 
-	    BufferedReader br = null;
 		List<Asset> assetList = new ArrayList<Asset>();
-	    try {
 							
-				br = new BufferedReader(new FileReader(filename));
-		        String link = br.readLine();
-		        Asset asset = null;
 
+		Asset asset = null;
+		String link = null;
+		String thumb_link = null;
+		for (int i=1;i < NUMBER_OF_ASSET+1;i++) {
 
-		        int i = 1;
-		        while (link != null) {
-
-		        	asset = new Asset();
-		        	String name = ("asset_" + i);
-		    		asset.setName(name);
-		    		asset.setDescription("Description of " + name);
-		    		asset.setLocation(link);
-		    		asset.setThumbnailLocation(link);
+			link = BASE_LOCATION + "images/" + i + ".jpg";
+		    thumb_link = BASE_LOCATION + "thumbs/" + i + ".jpg";
+		        	
+		    asset = new Asset();
+		    String name = ("asset_" + i);
+		    asset.setName(name);
+		    asset.setDescription("Description of " + name);
+		    asset.setLocation(link);
+		    asset.setThumbnailLocation(thumb_link);
 		    		
-		    		// System.out.println(asset.toJsonString());
+		    assetList.add(asset);
 		    		
-		    		assetList.add(asset);
-		    		
-		            link = br.readLine();	        
-		    		i++;
-		        }
+		}
 
-		        
-			} catch (FileNotFoundException e) {	
-				e.printStackTrace();	        
-		    } catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-		        try {
-		        	if (br!=null) {
-		        		br.close();
-		        	}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		    }					
 		return assetList;
 	}
 	
@@ -122,7 +104,7 @@ public class AssetHelper {
 		AssetRepository assetRepository = ctx.getBean(AssetRepository.class);
 
 		
-		List<Asset> assetList = getAssets(DEFAULT_FILE_NAME);
+		List<Asset> assetList = getAssets();
 		int n = storeToDB(assetList);
 		System.out.println("Number of new assets:" + n);
 		
