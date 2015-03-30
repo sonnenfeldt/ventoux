@@ -9,10 +9,13 @@
 	<script type="text/javascript" src="http://www.sonnenfeldt.de/cit/js/thickbox.js"></script>  
 
 	<link rel="stylesheet" href="http://www.sonnenfeldt.de/cit/css/thickbox.css" type="text/css" media="screen" />	
+	<link rel="stylesheet" href="http://www.sonnenfeldt.de/cit/css/cit.css" type="text/css" media="screen" />	
 	
  </head>
  <body link="#ffffff" vlink="#ffffff" alink="#ccccff">
  <h1>Welcome to the LA Visualization Graphic Library!</h1>
+ <br>
+ <br>
  <div align="center">  
   <table>
    <tr>	   
