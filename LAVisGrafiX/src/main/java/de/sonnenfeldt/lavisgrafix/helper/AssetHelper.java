@@ -1,11 +1,5 @@
 package de.sonnenfeldt.lavisgrafix.helper;
 
-
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +12,8 @@ public class AssetHelper {
 
 	private static int NUMBER_OF_ASSET = 41;
 	private static String BASE_LOCATION = "https://s3-eu-west-1.amazonaws.com/lavisgrafix/";
+	private static ClassPathXmlApplicationContext ctx  = new ClassPathXmlApplicationContext(
+			"spring/application-config.xml");
 	
 	public AssetHelper() {
 	
@@ -52,8 +48,6 @@ public class AssetHelper {
 	
 
 	public static int storeToDB(List<Asset> assetList) {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				"spring/application-config.xml");
 		AssetRepository assetRepository = ctx.getBean(AssetRepository.class);
 
 		int n = 0;
@@ -66,8 +60,7 @@ public class AssetHelper {
 	
 	
 	public static void storeToDB(Asset asset) {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				"spring/application-config.xml");
+
 		AssetRepository assetRepository = ctx.getBean(AssetRepository.class);
 
 		assetRepository.insert(asset);
@@ -76,8 +69,6 @@ public class AssetHelper {
 	
 
 	public static int deleteFromDB(List<Asset> assetList) {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				"spring/application-config.xml");
 		AssetRepository assetRepository = ctx.getBean(AssetRepository.class);
 
 		int n = 0;
@@ -89,7 +80,7 @@ public class AssetHelper {
 	}
 
 	public static void deleteFromDB(Asset asset) {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+		ctx = new ClassPathXmlApplicationContext(
 				"spring/application-config.xml");
 		AssetRepository assetRepository = ctx.getBean(AssetRepository.class);
 
@@ -99,8 +90,6 @@ public class AssetHelper {
 	
 	public static void main(String[] args) {
 		
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				"spring/application-config.xml");
 		AssetRepository assetRepository = ctx.getBean(AssetRepository.class);
 
 		

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.UriTemplate;
@@ -28,7 +27,7 @@ public class AssetController {
 	
 	static Logger log = Logger.getLogger(AssetController.class.getName());
 
-	private static String MAIN_VIEW = "main";
+	public static String MAIN_VIEW = "main";
 		
 	private AssetRepository repo;
 	
@@ -62,8 +61,14 @@ public class AssetController {
 	@RequestMapping(value = "/assets/{id}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody Asset getAsset(@PathVariable String id) {
+		log.debug("AssetController::getAsset() with uuid: " + id);	
 		Asset asset = repo.findById(id);
-		log.debug("AssetController::getAsset() returns: " + asset.toJsonString());		
+		if (asset != null) {
+			log.debug("AssetController::getAsset() returns: " + asset.toJsonString());	
+		} else {
+			log.debug("AssetController::getAsset() returns null.");		
+		}
+		
 		return asset;
 	}
 
@@ -75,7 +80,9 @@ public class AssetController {
 		log.debug("AssetController::createAsset() received asset: " + asset.toJsonString());
 		repo.insert(asset);
 		String location = getLocationForAssetResource(asset, request);
-		response.addHeader("Location", location);
+		if (location != null) {
+			response.addHeader("Location", location);
+		}
 		log.debug("AssetController::createAsset() Location: " + location);
 	}
 	
@@ -83,10 +90,15 @@ public class AssetController {
 	@RequestMapping(value = "{/assets/{id}}", method = RequestMethod.PUT, consumes = { "application/json" })
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateAsset(@PathVariable String id, @RequestBody Asset asset) {
+		log.debug("AssetController::updateAsset() with uuid: " + id);		
 		Asset assetToUpdate = repo.findById(id);
-		asset.setUuid(assetToUpdate.getUuid());
-		log.debug("AssetController:updateAsset() received asset: " + asset.toJsonString());
-		repo.update(asset);
+		if (assetToUpdate != null) {
+			asset.setUuid(assetToUpdate.getUuid());
+			log.debug("AssetController:updateAsset() updating asset: " + asset.toJsonString());
+			repo.update(asset);
+		} else {
+			log.debug("AssetController::updateAsset() asset not found.");		
+		}
 	}	
 	
 	/*
@@ -104,8 +116,14 @@ public class AssetController {
 	private String getLocationForAssetResource(Asset asset,
 			HttpServletRequest request) {
 		StringBuffer url = request.getRequestURL();
-		UriTemplate template = new UriTemplate(url.append("/{Id}").toString());
-		return template.expand(asset.getUuid(), template).toASCIIString();
+		
+		String result = null;
+		if (url != null) {
+			UriTemplate template = new UriTemplate(url.append("/{Id}").toString());
+			result = template.expand(asset.getUuid(), template).toASCIIString();		
+		}
+		
+		return result;
 	}	
 	
 	// Exception handler for findById if "Asset" item does not exist in repo

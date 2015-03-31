@@ -25,12 +25,11 @@ public class AssetRepositoryTest {
 	private Random randomGenerator = new Random();	
 	private Asset asset;
 	private Asset assetToFind;
+	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring/application-config.xml");;
 	
 	@Before
 	public void setup() {
 		
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				"spring/application-config.xml");
 		repo = ctx.getBean(AssetRepository.class);
 		
 		assetList = AssetHelper.getAssets();
