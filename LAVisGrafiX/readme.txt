@@ -2,6 +2,7 @@ LAVisGrafiX v0.0.1 (3/31/2015) - readme.txt
 
 Available on:
 http://lavisgrafix.cfapps.io/
+http://lavisgrafix.eu-gb.mybluemix.net/
 
 What works:
 1.) Two initial use cases:
