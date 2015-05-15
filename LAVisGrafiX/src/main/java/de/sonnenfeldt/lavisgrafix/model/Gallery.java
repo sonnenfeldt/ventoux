@@ -5,7 +5,5 @@ public class Gallery extends LibraryEntry {
 	public Gallery() {
 		super();
 	}
-
-	//getAllAssets
 	
 }

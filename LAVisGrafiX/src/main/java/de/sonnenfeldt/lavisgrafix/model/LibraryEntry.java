@@ -10,11 +10,13 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import de.sonnenfeldt.lavisgrafix.model.LibraryEntryBase;
+
 /**
  * @author rudi
  *
  */
-public abstract class LibraryEntry {
+public abstract class LibraryEntry extends LibraryEntryBase {
 
 	private String uuid;
 	private String name;
@@ -24,7 +26,7 @@ public abstract class LibraryEntry {
 	 * 
 	 */
 	public LibraryEntry() {
-		// TODO Auto-generated constructor stub
+		super();
 		this.uuid = UUID.randomUUID().toString();
 	}
 
@@ -68,25 +70,6 @@ public abstract class LibraryEntry {
 	 */
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
-	}
-
-	public String  toJsonString() {
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonString = null;
-		try {
-			jsonString = mapper.writeValueAsString(this);
-		} catch (JsonGenerationException e) {
-			jsonString = new String("Conversion to JSON failed: JsonGenerationException.");
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			jsonString = new String("Conversion to JSON failed: JsonMappingException.");
-			e.printStackTrace();
-		} catch (IOException e) {
-			jsonString = new String("Conversion to JSON failed: IOException.");
-			e.printStackTrace();
-		}
-		return jsonString;
-		
 	}
 	
 }
