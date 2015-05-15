@@ -24,6 +24,8 @@
 	</bean>
             
 	<context:component-scan base-package="de.sonnenfeldt.lavisgrafix" />
+	<context:component-scan base-package="de.sonnenfeldt.lavisgrafix.controller" />
+	<context:component-scan base-package="de.sonnenfeldt.lavisgrafix.config" />
 	
 	<!-- 
     <aop:aspectj-autoproxy>
@@ -44,6 +46,7 @@
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/login" access="isAnonymous()" />
    	 	<security:intercept-url pattern="/**" access="hasRole('USER')" />
+   		<security:intercept-url pattern="favicon.ico" access="permitAll"/>  	
 
    	    <security:form-login login-page="/login" default-target-url="/"
             authentication-failure-url="/login?error" />
@@ -58,9 +61,6 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 		
-	<context:component-scan base-package="de.sonnenfeldt.lavisgrafix.controller" />
-	<context:component-scan base-package="de.sonnenfeldt.lavisgrafix.config" />
-	    
     <mvc:annotation-driven />
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

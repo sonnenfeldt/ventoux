@@ -152,7 +152,7 @@ public class JdbcAssetRepository  implements AssetRepository {
 	}
 
 	public void deleteUserRating(Asset asset, String username) {
-		userRatingRepo.deleteUserRating(asset.getUser(), username);
+		userRatingRepo.deleteUserRating(asset.getUuid(), username);
 	}
 	
 

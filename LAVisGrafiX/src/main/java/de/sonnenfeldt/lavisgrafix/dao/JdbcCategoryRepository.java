@@ -7,7 +7,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
-import org.postgresql.util.PGobject;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -126,7 +125,6 @@ public class JdbcCategoryRepository implements CategoryRepository {
 	}
 
 	public void addCategory(Category category, String asset_uuid) {
-		
 		Category existingCategory = findById(category.getUuid());
 		if (existingCategory == null) {
 			log.debug("addCategory adding new category: " + category.toJsonString());			

@@ -1,8 +1,6 @@
 package de.sonnenfeldt.lavisgrafix.dao;
 
-import java.util.List;
 
-import de.sonnenfeldt.lavisgrafix.model.Keyword;
 import de.sonnenfeldt.lavisgrafix.model.UserRating;
 
 public interface UserRatingRepository {

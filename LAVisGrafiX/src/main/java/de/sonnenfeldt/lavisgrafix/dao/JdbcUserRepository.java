@@ -2,6 +2,7 @@ package de.sonnenfeldt.lavisgrafix.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -11,6 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import de.sonnenfeldt.lavisgrafix.model.Authority;
 
 
 import de.sonnenfeldt.lavisgrafix.model.User;
@@ -28,17 +31,28 @@ public class JdbcUserRepository implements UserRepository{
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
-	public User findById(String username) {
+	public User getUser(String username) {
 		User user = null;
+		List<Authority> authorities = null;
 		
 		try {
 			user = jdbcTemplate.queryForObject(
-					"select username, password, enabled, family_name, first_name from user where username=?",
+					"select username, password, enabled, family_name, first_name from users where username=?",
 					new UserRowMapper(), username);	
-			log.debug("user findById success: " + user.toJsonString());
+			log.debug("user getUser success: " + user.toJsonString());
+			
+			authorities = jdbcTemplate.query(
+					"select username, authority from authorities where username=?",
+					new AuthorityRowMapper(), username);
+			
+			if (authorities != null) {
+				user.setAuthorities(authorities);
+			}
+			log.debug("user getUser success: " + user.toJsonString());
+			
 		} catch (EmptyResultDataAccessException e) {
-			log.debug("user findById failed: " + username);	
-			log.debug("user findById failed: " + e.toString());
+			log.debug("user getUser failed: " + username);	
+			log.debug("user getUser failed: " + e.toString());
 		}
 
 		return user;
@@ -63,5 +77,17 @@ public class JdbcUserRepository implements UserRepository{
 	
 	
 	}	
+	
+	class AuthorityRowMapper implements RowMapper<Authority> {
+
+		public Authority mapRow(ResultSet rs, int rowNum) throws SQLException {
+			String username = rs.getString("username");
+			String role = rs.getString("authority");
+			Authority authority = new Authority();
+			authority.setUsername(username);
+			authority.setRole(role);
+			return authority;
+		}	
+	}		
 	
 }

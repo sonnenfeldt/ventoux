@@ -58,11 +58,42 @@
  link="#ffffff" vlink="#ffffff" alink="#ccccff" marginwidth="20"
  marginheight="20" topmargin="20" leftmargin="20" onload="scale_images();" onresize="scale_images();" onorientationchange="scale_images();">
 
+<table width="100%"> 
+<tr>
+<td valign="top">
  <h1>LAVisGrafix!</h1>
- <br>
- <br>
- 
-	<form method="POST" action="/LAVisGrafiX/assets/update/${asset.uuid}">
+</td>
+<td align="right">
+<table>
+<tr><td colspan="2" id="TextSmallBold" >System Information</td></tr>
+<tr><td id="TextSmall">+ User: </td><td id="TextSmall">${user.username}</td> </tr>
+<tr><td id="TextSmall">+ Name: </td><td id="TextSmall">${user.firstName} ${user.familyName}</td></tr>
+<tr><td id="TextSmall">+ Roles: </td><td id="TextSmall">
+<c:forEach items="${user.authorities}" var="authority" varStatus="row">
+${authority.role}
+</c:forEach>
+</td>
+</tr>
+<tr><td id="TextSmall">+ Host Address: </td><td id="TextSmall">
+<script type="text/javascript">
+    var ip = location.host;
+    document.write(ip);
+</script>
+</td></tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td> </td>
+<td align="right"><a class="btn" href="<c:url value="/logout" />" > Logout</a></td>
+</tr>
+<tr>
+<td> </td>
+<td align="right"><br></td>
+</tr>
+</table> 
+	<form method="POST" action="./update/${asset.uuid}">
 	
 	<table border="0" style="width: 100%;">
   	<tbody>

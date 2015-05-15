@@ -1,10 +1,6 @@
 package de.sonnenfeldt.lavisgrafix.model;
 
-import java.io.IOException;
-
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
+import java.util.List;
 
 import de.sonnenfeldt.lavisgrafix.model.LibraryEntryBase;
 
@@ -15,6 +11,7 @@ public class User extends LibraryEntryBase {
 	private boolean isEnabled;
 	private String familyName;
 	private String firstName;
+	private List<Authority> authorities;
 
 	public User() {
 		
@@ -88,6 +85,20 @@ public class User extends LibraryEntryBase {
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	/**
+	 * @return the authorities
+	 */
+	public List<Authority> getAuthorities() {
+		return authorities;
+	}
+
+	/**
+	 * @param authorities the authorities to set
+	 */
+	public void setAuthorities(List<Authority> authorities) {
+		this.authorities = authorities;
 	}	
 	
 }

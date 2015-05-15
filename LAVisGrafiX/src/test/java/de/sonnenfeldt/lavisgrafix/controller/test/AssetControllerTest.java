@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 
+
 import java.util.List;
 import java.util.Random;
 
@@ -25,24 +26,33 @@ import de.sonnenfeldt.lavisgrafix.dao.AssetRepository;
 import de.sonnenfeldt.lavisgrafix.dao.JdbcAssetRepository;
 import de.sonnenfeldt.lavisgrafix.helper.AssetHelper;
 import de.sonnenfeldt.lavisgrafix.model.Asset;
-
+import de.sonnenfeldt.lavisgrafix.service.AssetService;
+import de.sonnenfeldt.lavisgrafix.service.CategoryService;
+import de.sonnenfeldt.lavisgrafix.service.UserService;
+import de.sonnenfeldt.lavisgrafix.service.AssetServiceImpl;
+import de.sonnenfeldt.lavisgrafix.service.CategoryServiceImpl;
+import de.sonnenfeldt.lavisgrafix.service.UserServiceImpl;
 
 public class AssetControllerTest {
 
-	private AssetRepository repo;
 	private AssetController tested;
 	private List<Asset>assetList;
 	private Random randomGenerator = new Random();	
 	private Asset asset;
 	private Asset assetToFind;	
-
-
+	private AssetService assetService;
+	private CategoryService categoryService;
+	private UserService userService;
 	
 	@Before
 	public void setup() {
 		
-		repo = mock(JdbcAssetRepository.class);
-		tested = new AssetController(repo);
+		
+		this.assetService = mock(AssetServiceImpl.class);
+		this.categoryService = mock(CategoryServiceImpl.class);
+		this.userService = mock(UserServiceImpl.class);
+		
+		tested = new AssetController(assetService, categoryService, userService);
 		assetList = AssetHelper.getAssets();
 		
 		int m = randomGenerator.nextInt(assetList.size());
@@ -64,23 +74,26 @@ public class AssetControllerTest {
 		String view = tested.getAllAssets(model);
 		assertThat(view, CoreMatchers.equalTo(AssetController.MAIN_VIEW));
 		assertThat(model.get("assets"), notNullValue());
-		verify(repo).getAll();		
+		verify(assetService).getAll();		
 	}
 	
 	@Test
 	public void testGetAllAssets() {
 		List<Asset> all = tested.getAllAssets();
 		assertThat(all, notNullValue());
-		verify(repo).getAll();				
+		verify(assetService).getAll();				
 	}
 	
 	@Test
 	public void testGetAsset() {
 		final Asset final_asset = assetToFind;
 		
+		System.out.println("assetToFind = " + assetToFind);
+		System.out.println("tested = " + tested);
+		
 		tested.getAsset(assetToFind.getUuid());
 
-		verify(repo).findById(Mockito.argThat(new ArgumentMatcher<String>() {
+		verify(assetService).getAsset(Mockito.argThat(new ArgumentMatcher<String>() {
 
 			@Override
 			public boolean matches(Object argument) {
@@ -97,7 +110,21 @@ public class AssetControllerTest {
 				description.appendText("expected String with uuid");
 			}
 				
-		}));
+			}),
+			/* username - in case of Junit test, it will be null */
+			Mockito.argThat(new ArgumentMatcher<String>() {
+
+			@Override
+			public boolean matches(Object argument) {			
+				return true;
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("expected String with hostname");
+			}
+				
+			}));
 	}
 	
 	@Test
@@ -107,7 +134,7 @@ public class AssetControllerTest {
 		
 		final Asset final_asset = asset;
 		tested.createAsset(asset, request, response);
-		verify(repo).insert(Mockito.argThat(new ArgumentMatcher<Asset>() {
+		verify(assetService).insert(Mockito.argThat(new ArgumentMatcher<Asset>() {
 
 			@Override
 			public boolean matches(Object argument) {
@@ -131,7 +158,7 @@ public class AssetControllerTest {
 			}
 		}));	
 		
-		repo.delete(asset.getUuid());
+		assetService.delete(asset.getUuid());
 		
 	}
 	
@@ -141,7 +168,7 @@ public class AssetControllerTest {
 		tested.updateAsset(asset.getUuid(),asset);
 		
 		// verification can only be done against findById, as the mock of findById does not return the asset for update
-		verify(repo).findById(Mockito.argThat(new ArgumentMatcher<String>() {
+		verify(assetService).findById(Mockito.argThat(new ArgumentMatcher<String>() {
 
 			@Override
 			public boolean matches(Object argument) {
@@ -167,7 +194,7 @@ public class AssetControllerTest {
 		
 		tested.deleteAsset(asset.getUuid());
 		
-		verify(repo).delete(Mockito.argThat(new ArgumentMatcher<String>() {
+		verify(assetService).delete(Mockito.argThat(new ArgumentMatcher<String>() {
 
 			@Override
 			public boolean matches(Object argument) {

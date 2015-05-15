@@ -25,9 +25,23 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	public void addCategory(String categoryName, String asset_uuid) {
-		Category category = categoryRepo.findByName(categoryName);
 		categoryRepo.deleteCategories(asset_uuid);
-		categoryRepo.addCategory(category, asset_uuid);
+		
+		if (categoryName != null) {
+			Category category = categoryRepo.findByName(categoryName);
+			if (category == null) {
+				if (categoryName.compareTo("") != 0) {
+					category = new Category();
+					category.setName(categoryName);
+					category.setDescription(categoryName + " description");
+					categoryRepo.addCategory(category, asset_uuid);
+				}
+			} else {
+				categoryRepo.addCategory(category, asset_uuid);
+			}
+		}
+			
+		
 	}
 
 }

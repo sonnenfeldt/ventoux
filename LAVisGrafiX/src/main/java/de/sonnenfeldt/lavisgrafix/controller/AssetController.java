@@ -2,6 +2,7 @@ package de.sonnenfeldt.lavisgrafix.controller;
 
 import de.sonnenfeldt.lavisgrafix.service.AssetService;
 import de.sonnenfeldt.lavisgrafix.service.CategoryService;
+import de.sonnenfeldt.lavisgrafix.service.UserService;
 import de.sonnenfeldt.lavisgrafix.model.Asset;
 import de.sonnenfeldt.lavisgrafix.model.Category;
 
@@ -38,31 +39,49 @@ public class AssetController {
 		
 	private AssetService assetService;
 	private CategoryService categoryService;
+	private UserService userService;
 	
 	@Autowired
-	public AssetController(AssetService assetService, CategoryService categoryService) {
+	public AssetController(AssetService assetService, CategoryService categoryService, UserService userService) {
 		this.assetService = assetService;
 		this.categoryService = categoryService;
+		this.userService = userService;
 	}
 	
 	//show all assets
-	@RequestMapping({"/", "/assets","/assets/"})
+	@RequestMapping("/")
 	public String getAllAssets(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = null;
+		if (authentication != null) {
+			username = authentication.getName();	
+		}
 		model.addAttribute("assets", assetService.getAll());
+		model.addAttribute("user", userService.getUser(username));
 		String view = MAIN_VIEW;
 		log.debug("AssetController::getAllAssets() returns view: " + view);
 		return view;
 	}
 
+    @RequestMapping({"/assets","/assets/"})
+    String favicon() {
+    	return "redirect:/";
+    }
+	
+	
 	//show single assets
 	@RequestMapping("/assets/{id}")
 	public String getSingleAsset(Model model, @PathVariable String id) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();	
+		String username = null;
+		if (authentication != null) {
+			username = authentication.getName();	
+		}
 		Asset asset = assetService.getAsset(id,username);
 		List<Category> categories = categoryService.getAll();
 		model.addAttribute("asset", asset);
 		model.addAttribute("categories", categories);
+		model.addAttribute("user", userService.getUser(username));	
 		String view = SINGLE_ASSET_VIEW;
 		log.debug("AssetController::getSingleAsset() returns view: " + view);
 		return view;
@@ -92,7 +111,10 @@ public class AssetController {
 	public @ResponseBody Asset getAsset(@PathVariable String id) {
 		log.debug("AssetController::getAsset() with uuid: " + id);	
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();	
+		String username = null;
+		if (authentication != null) {
+			username = authentication.getName();	
+		}
 		Asset asset = assetService.getAsset(id,username);
 		if (asset != null) {
 			log.debug("AssetController::getAsset() returns: " + asset.toJsonString());	

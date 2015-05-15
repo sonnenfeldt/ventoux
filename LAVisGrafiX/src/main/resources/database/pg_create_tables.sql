@@ -60,6 +60,10 @@ insert into users values('lvg_admin','$2a$10$.HSlHUspYBdMwTP652Za4u7LfN5TcZE6b.A
 insert into authorities values('lvg_admin','ROLE_USER');
 insert into authorities values('lvg_admin','ROLE_ADMIN');
 
+insert into users values('igor','$2a$10$.HSlHUspYBdMwTP652Za4u7LfN5TcZE6b.AEuY1XrwK1WdsBLgkhO',true,'Mihalik','Igor');
+insert into authorities values('igor','ROLE_USER');
+insert into authorities values('igor','ROLE_ADMIN');
+
 -- create user john with password='pass'
 insert into users values('rudi','$2a$10$.HSlHUspYBdMwTP652Za4u7LfN5TcZE6b.AEuY1XrwK1WdsBLgkhO',true,'Schulze','Ruediger');
 insert into authorities values('rudi','ROLE_USER');

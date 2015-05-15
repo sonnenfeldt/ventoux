@@ -1,4 +1,5 @@
 package de.sonnenfeldt.lavisgrafix.service;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -83,7 +84,11 @@ public class AssetServiceImpl implements AssetService {
 	}
 
 	public List<Asset> getAll() {
-		return assetRepo.getAll();
+		List<Asset> assets = assetRepo.getAll();
+		
+		Collections.reverse(assets);
+		
+		return assets; 
 	}
 
 	public Asset findById(String uuid) {
@@ -178,7 +183,8 @@ public class AssetServiceImpl implements AssetService {
 			keywordService.addKeywords(keywords, asset_uuid);
 			
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			String username = authentication.getName();		
+			String username = authentication.getName();	
+			
 			assetRepo.deleteUserRating(asset,username);
 			
 			UserRating userRating = new UserRating();

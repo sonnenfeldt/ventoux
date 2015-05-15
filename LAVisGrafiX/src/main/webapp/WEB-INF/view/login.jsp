@@ -16,17 +16,37 @@
  link="#ffffff" vlink="#ffffff" alink="#ccccff" marginwidth="20"
  marginheight="20" topmargin="20" leftmargin="20">
  
+<table width="100%"> 
+<tr>
+<td valign="top">
  <h1>LAVisGrafix!</h1>
- <br>
- <br>
- <br>
+</td>
+<td align="right">
+<table>
+<tr><td colspan="2" id="TextSmallBold" >System Information</td></tr>
+<tr><td id="TextSmall">+ Host Address: </td><td id="TextSmall">
+<script type="text/javascript">
+    var ip = location.host;
+    document.write(ip);
+</script>
+</td></tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td> </td>
+<td align="right"></td>
+</tr>
+</table> 
+
  <div align="center">  
   <table>
    <tr>	   
        <td id="Gallery">
 	   <div align="center">
 		
-<form name='f' action='/LAVisGrafiX/login' method='POST'>
+<form name='f' action='./login' method='POST'>
 <table>
 	<tr>
 		<script>
